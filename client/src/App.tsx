@@ -3,20 +3,29 @@ import "./index.css";
 
 import logo from "./logo.svg";
 import reactLogo from "./react.svg";
+import {Api, Product} from "../Api.ts";
+import {useEffect, useState} from "react";
+
+const MyApi = new Api();
 
 export function App() {
-  return (
+  
+    const [products, setProducts] = useState<Product[]>([]);
+    
+    useEffect(() => {
+        MyApi.getProducts.productGetProducts().then(r => {
+            const data = r.data;
+            setProducts(data);
+        })
+    }, []);
+    
+    return (
     <div className="app">
-      <div className="logo-container">
-        <img src={logo} alt="Bun Logo" className="logo bun-logo" />
-        <img src={reactLogo} alt="React Logo" className="logo react-logo" />
-      </div>
-
-      <h1>Bun + React</h1>
-      <p>
-        Edit <code>src/App.tsx</code> and save to test HMR
-      </p>
-      <APITester />
+        {
+            products.map(p => {
+                return <div key {p.productId}>{p.productName}</div> 
+            })
+        }
     </div>
   );
 }
