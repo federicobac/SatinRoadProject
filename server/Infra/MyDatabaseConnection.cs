@@ -7,4 +7,5 @@ public class MyDatabaseConnection(DataOptions<MyDatabaseConnection> options)
     : DataConnection (options.Options)
 {
     public ITable<Product> Products => this.GetTable<Product>();
+    public ITable<Category> Categories => this.GetTable<Category>();
 }

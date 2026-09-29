@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LinqToDB;
 
 namespace Service;
 
@@ -14,6 +15,8 @@ public class ProductService(MyDatabaseConnection db)
             throw new ValidationException("Must have at least 1 results per page");
         
         return db.Products
+            .LoadWith(p => p.Category)
+            .ThenLoad(c => c.ProductsByCategory)
             .Take(resultsPerPage)
             .Skip((page - 1) * resultsPerPage)
             .ToList();
