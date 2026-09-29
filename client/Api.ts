@@ -10,9 +10,16 @@
  * ---------------------------------------------------------------
  */
 
-export interface Product {
+export interface ProductDto {
+  category?: CategoryDto;
   productId?: string;
   productName?: string;
+  categoryId?: string;
+}
+
+export interface CategoryDto {
+  categoryId?: string;
+  categoryName?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -286,10 +293,19 @@ export class Api<
      * @name ProductGetProducts
      * @request GET:/GetProducts
      */
-    productGetProducts: (params: RequestParams = {}) =>
-      this.request<Product[], any>({
+    productGetProducts: (
+      query?: {
+        /** @format int32 */
+        page?: number;
+        /** @format int32 */
+        resultsPerPage?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ProductDto[], any>({
         path: `/GetProducts`,
         method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),

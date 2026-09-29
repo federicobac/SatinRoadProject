@@ -3,19 +3,20 @@ import "./index.css";
 
 import logo from "./logo.svg";
 import reactLogo from "./react.svg";
-import {Api, Product} from "../Api.ts";
+import {Api, ProductDto} from "../Api.ts";
 import {useEffect, useState} from "react";
 
 const MyApi = new Api();
 
 export function App() {
   
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<ProductDto[]>([]);
     
     useEffect(() => {
         MyApi.getProducts.productGetProducts().then(r => {
             const data = r.data;
             setProducts(data);
+            const p = data[0]!;
         })
     }, []);
     
