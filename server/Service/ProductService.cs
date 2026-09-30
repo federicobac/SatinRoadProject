@@ -25,4 +25,17 @@ public class ProductService(MyDatabaseConnection db)
             })
             .ToList();
     }
+
+    public ProductDto CreateProduct(CreateProductRequestDto productRequestDto)
+    {
+        var p = new Product()
+        {
+            ProductName = productRequestDto.ProductName,
+            ProductId = Guid.NewGuid().ToString(),
+            ProductPrice = productRequestDto.ProductPrice,
+            CategoryId = productRequestDto.CategoryId
+        };
+        db.Insert(p);
+        return new ProductDto(p);
+    }
 }

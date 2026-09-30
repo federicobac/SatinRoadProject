@@ -1,7 +1,7 @@
-﻿namespace API;
+﻿using Facet;
+using Infra;
 
-public class CreateProductRequestDto
-{
-    public string ProductName { get; set; }
-    public decimal Price { get; set; }
-}
+namespace Service;
+
+[Facet(sourceType:typeof(Product), exclude: [nameof(Product.Category), nameof(Product.ProductId)])]
+public partial class CreateProductRequestDto;

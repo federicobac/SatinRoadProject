@@ -14,6 +14,7 @@ export interface ProductDto {
   category?: CategoryDto;
   productId?: string;
   productName?: string;
+  productPrice?: string;
   categoryId?: string;
 }
 
@@ -305,6 +306,30 @@ export class Api<
       this.request<ProductDto[], any>({
         path: `/GetProducts`,
         method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
+  createProduct = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductCreateProduct
+     * @request POST:/CreateProduct
+     */
+    productCreateProduct: (
+      query?: {
+        ProductName?: string;
+        ProductPrice?: string;
+        CategoryId?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ProductDto, any>({
+        path: `/CreateProduct`,
+        method: "POST",
         query: query,
         format: "json",
         ...params,
