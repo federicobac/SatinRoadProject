@@ -10,4 +10,11 @@ public class ProductController(ProductService service) : ControllerBase
     {
         return service.GetProducts(page, resultsPerPage);
     }
+
+    [HttpPost(nameof(CreateProduct))]
+    public ProductDto CreateProduct(CreateProductRequestDto productRequestDto)
+    {
+        return service.CreateProduct(productRequestDto);
+    }
+    
 }
