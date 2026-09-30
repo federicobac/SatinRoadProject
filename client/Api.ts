@@ -14,7 +14,8 @@ export interface ProductDto {
   category?: CategoryDto;
   productId?: string;
   productName?: string;
-  productPrice?: string;
+  /** @format decimal */
+  productPrice?: number;
   categoryId?: string;
 }
 
@@ -322,7 +323,8 @@ export class Api<
     productCreateProduct: (
       query?: {
         ProductName?: string;
-        ProductPrice?: string;
+        /** @format decimal */
+        ProductPrice?: number;
         CategoryId?: string;
       },
       params: RequestParams = {},

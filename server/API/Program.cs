@@ -5,7 +5,7 @@ using Service;
 var builder = WebApplication.CreateBuilder(args);
 
 var options = new DataOptions<MyDatabaseConnection>(
-        new DataOptions().UseSQLite("Data Source=db.db"));
+    new DataOptions().UseSQLite("Data Source=../Infra/db.db"));
 
 builder.Services.AddScoped<MyDatabaseConnection>(_ =>
     new MyDatabaseConnection(options));
