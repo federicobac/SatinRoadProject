@@ -5,6 +5,7 @@ import logo from "./logo.svg";
 import reactLogo from "./react.svg";
 import {Api, type ProductDto} from "../Api.ts";
 import {useEffect, useState} from "react";
+import toast from "react-hot-toast";
 
 const MyApi = new Api();
 
@@ -30,6 +31,8 @@ export function App() {
         }).then(r => {
             const duplicate = [...products, r.data];
             setProducts(duplicate);
+        }).catch(e => {
+            toast(e.error.title);
         })
     }
 
