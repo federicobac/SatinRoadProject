@@ -12,7 +12,7 @@ const MyApi = new Api();
 export function App() {
   
     const [products, setProducts] = useState<ProductDto[]>([]);
-    const [newProductName, setNewProductName] = useState()
+    const [newProductName, setNewProductName] = useState("")
     
     useEffect(() => {
         MyApi.getProducts.productGetProducts({page: 1, resultsPerPage: 1})
@@ -27,7 +27,7 @@ export function App() {
         MyApi.createProduct.productCreateProduct({
             ProductName: newProductName,
             CategoryId: "1",
-            ProductPrice: "100"
+            ProductPrice: 100
         }).then(r => {
             const duplicate = [...products, r.data];
             setProducts(duplicate);
@@ -40,7 +40,7 @@ export function App() {
     <div className="app">
         {
             products.map(p => {
-                return <div key {p.productId}>{p.productName}</div> 
+                return <div key={p.productId}>{p.productName}</div> 
             })
         }
         
