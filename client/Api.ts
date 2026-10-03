@@ -24,6 +24,22 @@ export interface CategoryDto {
   categoryName?: string;
 }
 
+export interface UserDto {
+  userId?: string;
+  username?: string;
+  role?: string;
+}
+
+export interface CreateUserRequestDto {
+  password?: string;
+  username?: string;
+}
+
+export interface LoginRequestDto {
+  username?: string;
+  password?: string;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -333,6 +349,41 @@ export class Api<
         path: `/CreateProduct`,
         method: "POST",
         query: query,
+        format: "json",
+        ...params,
+      }),
+  };
+  api = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserCreateUser
+     * @request POST:/api/User
+     */
+    userCreateUser: (data: CreateUserRequestDto, params: RequestParams = {}) =>
+      this.request<UserDto, any>({
+        path: `/api/User`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserLogin
+     * @request POST:/api/User/login
+     */
+    userLogin: (data: LoginRequestDto, params: RequestParams = {}) =>
+      this.request<UserDto, any>({
+        path: `/api/User/login`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
