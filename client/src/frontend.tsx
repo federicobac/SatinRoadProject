@@ -13,7 +13,7 @@ import {Routing} from "@/Routing.tsx";
 const elem = document.getElementById("root")!;
 const app = (
   <StrictMode>
-      <Toaster />
+      <Toaster position="top-right"/>
       <Routing />
   </StrictMode>
 );
