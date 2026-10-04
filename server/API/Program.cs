@@ -1,6 +1,7 @@
 using Infra;
 using LinqToDB;
 using Service;
+using Service.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddScoped<MyDatabaseConnection>(_ =>
     new MyDatabaseConnection(options));
 
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IPasswordHasher, Argon2PasswordHasher>();
 builder.Services.AddControllers();
 builder.Services.AddOpenApiDocument();
 builder.Services.AddCors();
@@ -24,6 +27,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<MyDatabaseConnection>();
     db.CreateTable<Product>(tableOptions:TableOptions.CreateIfNotExists);
     db.CreateTable<Category>(tableOptions:TableOptions.CreateIfNotExists);
+    db.CreateTable<User>(tableOptions:TableOptions.CreateIfNotExists);
     
     if (db.Categories.Count() == 0)
     {

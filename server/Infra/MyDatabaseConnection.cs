@@ -8,4 +8,5 @@ public class MyDatabaseConnection(DataOptions<MyDatabaseConnection> options)
 {
     public ITable<Product> Products => this.GetTable<Product>();
     public ITable<Category> Categories => this.GetTable<Category>();
+    public ITable<User> Users => this.GetTable<User>();
 }

@@ -11,3 +11,6 @@ public partial class ProductDto
 {
     public CategoryDto Category { get; set; }
 }
+
+[Facet(sourceType: typeof(User), exclude: nameof(User.PasswordHash))]
+public partial class UserDto;
