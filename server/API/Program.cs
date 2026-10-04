@@ -11,6 +11,7 @@ var options = new DataOptions<MyDatabaseConnection>(
 builder.Services.AddScoped<MyDatabaseConnection>(_ =>
     new MyDatabaseConnection(options));
 
+builder.Services.AddScoped<Seeder>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CategoryService>();
@@ -25,29 +26,8 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<MyDatabaseConnection>();
-    db.CreateTable<Product>(tableOptions:TableOptions.CreateIfNotExists);
-    db.CreateTable<Category>(tableOptions:TableOptions.CreateIfNotExists);
-    db.CreateTable<User>(tableOptions:TableOptions.CreateIfNotExists);
-    
-    if (db.Categories.Count() == 0)
-    {
-        db.Insert(new Category()
-        {
-            CategoryId = "1",
-            CategoryName = "stolen product",
-        });
-    }
-    
-    if (db.Products.Count() == 0)
-    {
-        db.Insert(new Product()
-        {
-            ProductId = "1",
-            ProductName = "product 1",
-            CategoryId = "1",
-        });
-    }
+    var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
+    seeder.Seed();
 }
 
 app.UseExceptionHandler();
