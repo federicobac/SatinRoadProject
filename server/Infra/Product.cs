@@ -11,11 +11,3 @@ public class Product
     [Association(ThisKey = nameof(CategoryId), OtherKey = nameof(Category.CategoryId))]
     public Category Category { get; set; }
 }
-
-public class Category
-{
-    [PrimaryKey] public string CategoryId { get; set; }
-    public string CategoryName { get; set; }
-    [Association(ThisKey = nameof(CategoryId), OtherKey = nameof(Product.CategoryId))]
-    public List<Product> ProductsByCategory { get; set; }
-}
