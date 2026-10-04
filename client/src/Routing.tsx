@@ -3,6 +3,7 @@ import App from "@/App.tsx";
 import LoginPage from "@/LoginPage.tsx";
 import CreateUserPage from "@/CreateUserPage.tsx";
 import ProductPage from "@/ProductPage.tsx";
+import CategoryPage from "@/CategoryPage.tsx";
 
 const routes: RouteObject[] = [
     {
@@ -16,6 +17,10 @@ const routes: RouteObject[] = [
     {
         path: "/create-user",
         element: <CreateUserPage />
+    },
+    {
+        path: "/categories",
+        element: <CategoryPage />
     },
     {
         path: "/products",
