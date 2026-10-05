@@ -1,8 +1,11 @@
-﻿namespace API.Controllers;
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 using Service;
 
+[Authorize]
 public class ProductController(ProductService service) : ControllerBase
 {
     [HttpGet(nameof(GetProducts))]
