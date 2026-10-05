@@ -1,17 +1,17 @@
 ﻿import "./index.css";
-import {Api, type ProductDto, ProductDto} from "../Api.ts";
+import {type ProductDto} from "../Api.ts";
 import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import {LogoutButton} from "@/components/LogoutButton.tsx";
+import {api} from "@/apiClient.ts";
 
-const MyApi = new Api();
 
 export function ProductPage() {
     const [products, setProducts] = useState<ProductDto[]>([]);
     const [newProductName, setNewProductName] = useState("")
 
     useEffect(() => {
-        MyApi.getProducts.productGetProducts({page: 1, resultsPerPage: 1})
+        api.getProducts.productGetProducts({page: 1, resultsPerPage: 1})
             .then(r => {
                 const data = r.data;
                 setProducts(data);
@@ -20,7 +20,7 @@ export function ProductPage() {
     }, []);
 
     function createProduct() {
-        MyApi.createProduct.productCreateProduct({
+        api.createProduct.productCreateProduct({
             ProductName: newProductName,
             CategoryId: "1",
             ProductPrice: 100

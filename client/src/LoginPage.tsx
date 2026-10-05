@@ -28,12 +28,12 @@ export function LoginPage() {
 
             sessionStorage.setItem(
                 "user",
-                JSON.stringify(response.data.token)
+                JSON.stringify(response.data.user)
             );
 
             console.log("Logged in user:", response.data);
 
-            toast.success(`Welcome, ${response.data?.username}!`);
+            toast.success(`Welcome, ${response.data.user?.username}!`);
 
             navigate("/products");
         } catch (error) {
