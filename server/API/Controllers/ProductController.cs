@@ -1,4 +1,4 @@
-﻿namespace API;
+﻿namespace API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 using Service;

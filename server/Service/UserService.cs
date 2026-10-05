@@ -55,4 +55,14 @@ public class UserService(MyDatabaseConnection db,
             User = new UserDto(user)
         };
     }
+
+    public UserDto? GetById(string userId)
+    {
+        var user = db.Users
+            .FirstOrDefault(u => u.UserId == userId);
+        
+        return user is null
+            ? null
+            : new UserDto(user);
+    }
 }

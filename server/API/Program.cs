@@ -4,6 +4,7 @@ using Infra;
 using LinqToDB;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using NSwag.AspNetCore.Middlewares;
 using Service;
 using Service.Security;
 
@@ -64,7 +65,26 @@ builder.Services.AddScoped<ITokenService>(_ =>
     ));
 
 builder.Services.AddControllers();
-builder.Services.AddOpenApiDocument();
+
+//Adding Bearer authorization schema to Swagger
+builder.Services.AddOpenApiDocument(document =>
+{
+    document.AddSecurity(
+        "Bearer",
+        new List<string>(),
+        new NSwag.OpenApiSecurityScheme
+        {
+            Type = NSwag.OpenApiSecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+            Description = "Enter your JWT bearer token"
+        });
+    
+    document.OperationProcessors.Add(
+        new NSwag.Generation.Processors.Security
+            .AspNetCoreOperationSecurityScopeProcessor("Bearer"));
+});
+
 builder.Services.AddCors();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<MyExceptionHandler>();
