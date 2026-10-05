@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service;
+using Service.RequestDtos;
 
 namespace API;
 
@@ -14,14 +15,14 @@ public class UserController(UserService service) : ControllerBase
     }
 
     [HttpPost("login")]
-    public ActionResult<UserDto> Login(LoginRequestDto loginRequestDto)
+    public ActionResult<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
     {
-        var user = service.Login(loginRequestDto);
+        var result = service.Login(loginRequestDto);
 
-        if (user is null)
+        if (result is null)
             return Unauthorized();
 
-        return Ok(user);
+        return Ok(result);
     }
 
 }

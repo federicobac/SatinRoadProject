@@ -1,11 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Infra;
 using LinqToDB;
+using Service.RequestDtos;
 using Service.Security;
 
 namespace Service;
 
-public class UserService(MyDatabaseConnection db, IPasswordHasher passwordHasher)
+public class UserService(MyDatabaseConnection db, 
+    IPasswordHasher passwordHasher,
+    ITokenService tokenService)
 {
     public UserDto CreateUser(CreateUserRequestDto userRequestDto)
     {
@@ -31,7 +34,7 @@ public class UserService(MyDatabaseConnection db, IPasswordHasher passwordHasher
         return new UserDto(user);
     }
 
-    public UserDto? Login(LoginRequestDto loginRequestDto)
+    public LoginResponseDto? Login(LoginRequestDto loginRequestDto)
     {
         var user = db.Users
             .FirstOrDefault(u => u.Username == loginRequestDto.Username);
@@ -46,6 +49,10 @@ public class UserService(MyDatabaseConnection db, IPasswordHasher passwordHasher
         if (!passwordIsValid)
             return null;
 
-        return new UserDto(user);
+        return new LoginResponseDto
+        {
+            Token = tokenService.CreateToken(user),
+            User = new UserDto(user)
+        };
     }
 }
