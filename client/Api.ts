@@ -10,17 +10,16 @@
  * ---------------------------------------------------------------
  */
 
-export interface ProductDto {
-  category?: CategoryDto;
-  productId?: string;
-  productName?: string;
-  /** @format decimal */
-  productPrice?: number;
-  categoryId?: string;
-}
-
 export interface CategoryDto {
   categoryId?: string;
+  categoryName?: string;
+}
+
+export interface CreateCategoryRequestDto {
+  categoryName?: string;
+}
+
+export interface UpdateCategoryRequestDto {
   categoryName?: string;
 }
 
@@ -35,9 +34,23 @@ export interface CreateUserRequestDto {
   username?: string;
 }
 
+export interface LoginResponseDto {
+  token?: string;
+  user?: UserDto;
+}
+
 export interface LoginRequestDto {
   username?: string;
   password?: string;
+}
+
+export interface ProductDto {
+  category?: CategoryDto;
+  productId?: string;
+  productName?: string;
+  /** @format decimal */
+  productPrice?: number;
+  categoryId?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -303,6 +316,140 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
+  api = {
+    /**
+     * No description
+     *
+     * @tags Category
+     * @name CategoryGetCategories
+     * @request GET:/api/Category
+     * @secure
+     */
+    categoryGetCategories: (params: RequestParams = {}) =>
+      this.request<CategoryDto[], any>({
+        path: `/api/Category`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Category
+     * @name CategoryCreateCategory
+     * @request POST:/api/Category
+     * @secure
+     */
+    categoryCreateCategory: (
+      data: CreateCategoryRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<CategoryDto, any>({
+        path: `/api/Category`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Category
+     * @name CategoryUpdateCategory
+     * @request PUT:/api/Category/{id}
+     * @secure
+     */
+    categoryUpdateCategory: (
+      id: string,
+      data: UpdateCategoryRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<CategoryDto, any>({
+        path: `/api/Category/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Category
+     * @name CategoryDeleteCategory
+     * @request DELETE:/api/Category/{id}
+     * @secure
+     */
+    categoryDeleteCategory: (id: string, params: RequestParams = {}) =>
+      this.request<Blob, any>({
+        path: `/api/Category/${id}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserCreateUser
+     * @request POST:/api/User
+     * @secure
+     */
+    userCreateUser: (data: CreateUserRequestDto, params: RequestParams = {}) =>
+      this.request<UserDto, any>({
+        path: `/api/User`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserLogin
+     * @request POST:/api/User/login
+     * @secure
+     */
+    userLogin: (data: LoginRequestDto, params: RequestParams = {}) =>
+      this.request<LoginResponseDto, any>({
+        path: `/api/User/login`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserMe
+     * @request GET:/api/User/me
+     * @secure
+     */
+    userMe: (params: RequestParams = {}) =>
+      this.request<UserDto, any>({
+        path: `/api/User/me`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
   getProducts = {
     /**
      * No description
@@ -310,6 +457,7 @@ export class Api<
      * @tags Product
      * @name ProductGetProducts
      * @request GET:/GetProducts
+     * @secure
      */
     productGetProducts: (
       query?: {
@@ -324,6 +472,7 @@ export class Api<
         path: `/GetProducts`,
         method: "GET",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -335,6 +484,7 @@ export class Api<
      * @tags Product
      * @name ProductCreateProduct
      * @request POST:/CreateProduct
+     * @secure
      */
     productCreateProduct: (
       query?: {
@@ -349,41 +499,7 @@ export class Api<
         path: `/CreateProduct`,
         method: "POST",
         query: query,
-        format: "json",
-        ...params,
-      }),
-  };
-  api = {
-    /**
-     * No description
-     *
-     * @tags User
-     * @name UserCreateUser
-     * @request POST:/api/User
-     */
-    userCreateUser: (data: CreateUserRequestDto, params: RequestParams = {}) =>
-      this.request<UserDto, any>({
-        path: `/api/User`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags User
-     * @name UserLogin
-     * @request POST:/api/User/login
-     */
-    userLogin: (data: LoginRequestDto, params: RequestParams = {}) =>
-      this.request<UserDto, any>({
-        path: `/api/User/login`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
+        secure: true,
         format: "json",
         ...params,
       }),
