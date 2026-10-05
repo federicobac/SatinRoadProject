@@ -1,6 +1,7 @@
 ﻿import {useEffect, useState} from "react";
 import {Api, type CategoryDto} from "../Api.ts";
 import toast from "react-hot-toast";
+import {LogoutButton} from "@/components/LogoutButton.tsx";
 
 const api = new Api();
 
@@ -162,6 +163,7 @@ export function CategoryPage() {
                     </div>
                 );
             })}
+            <LogoutButton />
         </div>
     );
 }

@@ -1,9 +1,8 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import { Api } from "../Api.ts";
+import {api, setAuthToken} from "@/apiClient.ts";
 
-const api = new Api();
 
 export function LoginPage() {
     const [username, setUsername] = useState("");
@@ -24,6 +23,13 @@ export function LoginPage() {
                 username: username,
                 password
             });
+
+            setAuthToken(response.data.token);
+
+            sessionStorage.setItem(
+                "user",
+                JSON.stringify(response.data.token)
+            );
 
             console.log("Logged in user:", response.data);
 

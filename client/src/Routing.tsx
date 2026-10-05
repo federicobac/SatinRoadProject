@@ -4,6 +4,8 @@ import LoginPage from "@/LoginPage.tsx";
 import CreateUserPage from "@/CreateUserPage.tsx";
 import ProductPage from "@/ProductPage.tsx";
 import CategoryPage from "@/CategoryPage.tsx";
+import {ProtectedRoute} from "@/ProtectedRoute.tsx";
+import {AdminRoute} from "@/AdminRoute.tsx";
 
 const routes: RouteObject[] = [
     {
@@ -19,12 +21,20 @@ const routes: RouteObject[] = [
         element: <CreateUserPage />
     },
     {
-        path: "/categories",
-        element: <CategoryPage />
+        path: "/admin/categories",
+        element: (
+            <AdminRoute>
+                <CategoryPage />
+            </AdminRoute>
+        )
     },
     {
         path: "/products",
-        element: <ProductPage />
+        element: (
+            <ProtectedRoute>
+                <ProductPage />
+            </ProtectedRoute>
+        )
     }
 ];
 

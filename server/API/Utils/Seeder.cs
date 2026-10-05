@@ -34,13 +34,9 @@ public class Seeder(
         
         var adminPassword = configuration["SeedAdmin:Password"];
         
-        Console.WriteLine($"Admin password configured: {!string.IsNullOrWhiteSpace(adminPassword)}");
-        Console.WriteLine($"Admin exists: {db.Users.Any(u => u.Username == "admin")}");
-
         if (!string.IsNullOrWhiteSpace(adminPassword) && 
             !db.Users.Any(u => u.Username == "admin"))
         {
-            Console.WriteLine("Creating admin user...");
             
             db.Insert(new User
             {

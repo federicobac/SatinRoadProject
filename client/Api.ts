@@ -23,15 +23,6 @@ export interface UpdateCategoryRequestDto {
   categoryName?: string;
 }
 
-export interface ProductDto {
-  category?: CategoryDto;
-  productId?: string;
-  productName?: string;
-  /** @format decimal */
-  productPrice?: number;
-  categoryId?: string;
-}
-
 export interface UserDto {
   userId?: string;
   username?: string;
@@ -43,9 +34,23 @@ export interface CreateUserRequestDto {
   username?: string;
 }
 
+export interface LoginResponseDto {
+  token?: string;
+  user?: UserDto;
+}
+
 export interface LoginRequestDto {
   username?: string;
   password?: string;
+}
+
+export interface ProductDto {
+  category?: CategoryDto;
+  productId?: string;
+  productName?: string;
+  /** @format decimal */
+  productPrice?: number;
+  categoryId?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -318,11 +323,13 @@ export class Api<
      * @tags Category
      * @name CategoryGetCategories
      * @request GET:/api/Category
+     * @secure
      */
     categoryGetCategories: (params: RequestParams = {}) =>
       this.request<CategoryDto[], any>({
         path: `/api/Category`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -333,6 +340,7 @@ export class Api<
      * @tags Category
      * @name CategoryCreateCategory
      * @request POST:/api/Category
+     * @secure
      */
     categoryCreateCategory: (
       data: CreateCategoryRequestDto,
@@ -342,6 +350,7 @@ export class Api<
         path: `/api/Category`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -353,6 +362,7 @@ export class Api<
      * @tags Category
      * @name CategoryUpdateCategory
      * @request PUT:/api/Category/{id}
+     * @secure
      */
     categoryUpdateCategory: (
       id: string,
@@ -363,6 +373,7 @@ export class Api<
         path: `/api/Category/${id}`,
         method: "PUT",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -374,11 +385,13 @@ export class Api<
      * @tags Category
      * @name CategoryDeleteCategory
      * @request DELETE:/api/Category/{id}
+     * @secure
      */
     categoryDeleteCategory: (id: string, params: RequestParams = {}) =>
       this.request<Blob, any>({
         path: `/api/Category/${id}`,
         method: "DELETE",
+        secure: true,
         ...params,
       }),
 
@@ -388,12 +401,14 @@ export class Api<
      * @tags User
      * @name UserCreateUser
      * @request POST:/api/User
+     * @secure
      */
     userCreateUser: (data: CreateUserRequestDto, params: RequestParams = {}) =>
       this.request<UserDto, any>({
         path: `/api/User`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -405,13 +420,32 @@ export class Api<
      * @tags User
      * @name UserLogin
      * @request POST:/api/User/login
+     * @secure
      */
     userLogin: (data: LoginRequestDto, params: RequestParams = {}) =>
-      this.request<UserDto, any>({
+      this.request<LoginResponseDto, any>({
         path: `/api/User/login`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserMe
+     * @request GET:/api/User/me
+     * @secure
+     */
+    userMe: (params: RequestParams = {}) =>
+      this.request<UserDto, any>({
+        path: `/api/User/me`,
+        method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -423,6 +457,7 @@ export class Api<
      * @tags Product
      * @name ProductGetProducts
      * @request GET:/GetProducts
+     * @secure
      */
     productGetProducts: (
       query?: {
@@ -437,6 +472,7 @@ export class Api<
         path: `/GetProducts`,
         method: "GET",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -448,6 +484,7 @@ export class Api<
      * @tags Product
      * @name ProductCreateProduct
      * @request POST:/CreateProduct
+     * @secure
      */
     productCreateProduct: (
       query?: {
@@ -462,6 +499,7 @@ export class Api<
         path: `/CreateProduct`,
         method: "POST",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),

@@ -2,6 +2,7 @@
 import {Api, type ProductDto, ProductDto} from "../Api.ts";
 import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
+import {LogoutButton} from "@/components/LogoutButton.tsx";
 
 const MyApi = new Api();
 
@@ -41,6 +42,8 @@ export function ProductPage() {
 
             <input value={newProductName} onChange={e => setNewProductName(e.target.value)} />
             <button onClick={createProduct}>Create product</button>
+
+            <LogoutButton />
         </div>
     );
 }
