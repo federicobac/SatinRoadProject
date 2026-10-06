@@ -6,6 +6,7 @@ import ProductPage from "@/ProductPage.tsx";
 import CategoryPage from "@/CategoryPage.tsx";
 import {ProtectedRoute} from "@/ProtectedRoute.tsx";
 import {AdminRoute} from "@/AdminRoute.tsx";
+import DashboardPage from "@/DashboardPage.tsx";
 
 const routes: RouteObject[] = [
     {
@@ -33,6 +34,14 @@ const routes: RouteObject[] = [
         element: (
             <ProtectedRoute>
                 <ProductPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/dashboard",
+        element: (
+            <ProtectedRoute>
+                <DashboardPage />
             </ProtectedRoute>
         )
     }

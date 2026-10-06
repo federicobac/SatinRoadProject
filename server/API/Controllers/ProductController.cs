@@ -1,11 +1,10 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Service.RequestDtos;
-
-namespace API.Controllers;
-
 using Microsoft.AspNetCore.Mvc;
 using Service;
+
+namespace API.Controllers;
 
 [Authorize]
 public class ProductController(ProductService service) : ControllerBase
@@ -16,6 +15,17 @@ public class ProductController(ProductService service) : ControllerBase
         return service.GetProducts(page, resultsPerPage);
     }
 
+    [HttpGet("mine")]
+    public ActionResult<List<ProductDto>> GetMyProducts()
+    {
+        var sellerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        
+        if (sellerId is null) 
+            return Unauthorized();
+        
+        return Ok(service.GetMyProducts(sellerId));
+    }
+    
     [HttpPost(nameof(CreateProduct))]
     public ProductDto CreateProduct(CreateProductRequestDto dto)
     {

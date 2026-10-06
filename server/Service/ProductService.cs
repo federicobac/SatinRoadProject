@@ -28,6 +28,17 @@ public class ProductService(MyDatabaseConnection db)
             .ToList();
     }
 
+    public List<ProductDto> GetMyProducts(string sellerId)
+    {
+        return db.Products
+            .Where(p => p.SellerId == sellerId)
+            .Select(p => new ProductDto(p)
+            {
+                Category = new CategoryDto(p.Category)
+            })
+            .ToList();
+    }
+
     public ProductDto CreateProduct(
         CreateProductRequestDto productRequestDto,
         string sellerId)
