@@ -1,7 +1,12 @@
 ﻿using Facet;
-using Infra;
+using Infra.Entities;
 
-namespace Service;
+namespace Service.RequestDtos;
 
-[Facet(sourceType:typeof(Product), exclude: [nameof(Product.Category), nameof(Product.ProductId)])]
+[Facet(sourceType:typeof(Product), 
+    exclude: [
+        nameof(Product.Category), 
+        nameof(Product.ProductId),
+        nameof(Product.SellerId)
+    ])]
 public partial class CreateProductRequestDto;

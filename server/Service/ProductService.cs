@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Infra;
+using Infra.Entities;
 using LinqToDB;
+using Service.RequestDtos;
 
 namespace Service;
 
-using Infra;
 
 public class ProductService(MyDatabaseConnection db)
 {
@@ -26,14 +28,27 @@ public class ProductService(MyDatabaseConnection db)
             .ToList();
     }
 
-    public ProductDto CreateProduct(CreateProductRequestDto productRequestDto)
+    public ProductDto CreateProduct(
+        CreateProductRequestDto productRequestDto,
+        string sellerId)
     {
+        if (productRequestDto.ProductPrice < 0)
+            throw new ValidationException("Price must be greater than 0");
+        
+        if (productRequestDto.Inventory < 0)
+            throw new ValidationException("Inventory must be greater than 0");
+        
+        if (!db.Categories.Any(c => c.CategoryId == productRequestDto.CategoryId)) 
+            throw new ValidationException("Category does not exists");
+        
         var p = new Product()
         {
-            ProductName = productRequestDto.ProductName,
             ProductId = Guid.NewGuid().ToString(),
+            ProductName = productRequestDto.ProductName,
             ProductPrice = productRequestDto.ProductPrice,
-            CategoryId = productRequestDto.CategoryId
+            Inventory = productRequestDto.Inventory,
+            CategoryId = productRequestDto.CategoryId,
+            SellerId = sellerId
         };
         db.Insert(p);
         return new ProductDto(p);

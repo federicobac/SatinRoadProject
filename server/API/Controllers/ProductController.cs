@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Service.RequestDtos;
 
 namespace API.Controllers;
 
@@ -15,9 +17,14 @@ public class ProductController(ProductService service) : ControllerBase
     }
 
     [HttpPost(nameof(CreateProduct))]
-    public ProductDto CreateProduct(CreateProductRequestDto productRequestDto)
+    public ProductDto CreateProduct(CreateProductRequestDto dto)
     {
-        return service.CreateProduct(productRequestDto);
+        var sellerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (sellerId is null)
+            throw new UnauthorizedAccessException();
+        
+        return service.CreateProduct(dto, sellerId);
     }
     
 }
