@@ -1,21 +1,17 @@
 import type { ReactNode } from "react";
 import { Navigate } from "react-router";
+import {useAuth} from "@/AuthContext.tsx";
 
 type Props = {
     children: ReactNode;
 };
 
 export function AdminRoute({ children }: Props) {
-    const token = sessionStorage.getItem("token");
-    const userJson = sessionStorage.getItem("user");
+    const { isAuthenticated, user } = useAuth();
 
-    if (!token) {
+    if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
     }
-
-    const user = userJson
-        ? JSON.parse(userJson)
-        : null;
 
     if (user?.role !== "Admin") {
         return <Navigate to="/products" replace />;
