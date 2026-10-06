@@ -7,6 +7,7 @@ import CategoryPage from "@/CategoryPage.tsx";
 import {ProtectedRoute} from "@/ProtectedRoute.tsx";
 import {AdminRoute} from "@/AdminRoute.tsx";
 import DashboardPage from "@/DashboardPage.tsx";
+import CreateListingPage from "@/CreateListingPage.tsx";
 
 const routes: RouteObject[] = [
     {
@@ -44,7 +45,16 @@ const routes: RouteObject[] = [
                 <DashboardPage />
             </ProtectedRoute>
         )
+    },
+    {
+        path: "/create-listing",
+        element: (
+            <ProtectedRoute>
+                <CreateListingPage />
+            </ProtectedRoute>
+        )
     }
+    
 ];
 
 const router = createBrowserRouter(routes);

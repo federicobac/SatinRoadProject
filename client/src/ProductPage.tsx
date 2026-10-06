@@ -35,7 +35,6 @@ export function ProductPage() {
 
                         <p>Price: {product.productPrice}</p>
                         <p>Inventory: {product.inventory}</p>
-                        <p>Seller: {product.sellerId}</p>
                         <p>
                             Category: {product.category?.categoryName}
                         </p>
