@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Infra;
+using Infra.Entities;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Service.Security;

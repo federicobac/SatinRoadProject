@@ -1,10 +1,10 @@
 using System.Security.Claims;
 using System.Text;
+using API.Utils;
 using Infra;
 using LinqToDB;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using NSwag.AspNetCore.Middlewares;
 using Service;
 using Service.Security;
 

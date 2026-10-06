@@ -50,7 +50,10 @@ export interface ProductDto {
   productName?: string;
   /** @format decimal */
   productPrice?: number;
+  /** @format int32 */
+  inventory?: number;
   categoryId?: string;
+  sellerId?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -473,6 +476,24 @@ export class Api<
         ...params,
       }),
   };
+  mine = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductGetMyProducts
+     * @request GET:/mine
+     * @secure
+     */
+    productGetMyProducts: (params: RequestParams = {}) =>
+      this.request<ProductDto[], any>({
+        path: `/mine`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
   createProduct = {
     /**
      * No description
@@ -487,6 +508,8 @@ export class Api<
         ProductName?: string;
         /** @format decimal */
         ProductPrice?: number;
+        /** @format int32 */
+        Inventory?: number;
         CategoryId?: string;
       },
       params: RequestParams = {},
@@ -497,6 +520,52 @@ export class Api<
         query: query,
         secure: true,
         format: "json",
+        ...params,
+      }),
+  };
+  id = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductUpdateProduct
+     * @request PUT:/{id}
+     * @secure
+     */
+    productUpdateProduct: (
+      id: string,
+      query?: {
+        ProductName?: string;
+        /** @format decimal */
+        ProductPrice?: number;
+        /** @format int32 */
+        Inventory?: number;
+        CategoryId?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ProductDto, any>({
+        path: `/${id}`,
+        method: "PUT",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductDeleteProduct
+     * @request DELETE:/{id}
+     * @secure
+     */
+    productDeleteProduct: (id: string, params: RequestParams = {}) =>
+      this.request<Blob, any>({
+        path: `/${id}`,
+        method: "DELETE",
+        secure: true,
         ...params,
       }),
   };

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Infra;
+using Infra.Entities;
 using LinqToDB;
 using Service.RequestDtos;
 using Service.Security;

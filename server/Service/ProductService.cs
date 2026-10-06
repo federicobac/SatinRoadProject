@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Infra;
+using Infra.Entities;
 using LinqToDB;
+using Service.RequestDtos;
 
 namespace Service;
 
-using Infra;
 
 public class ProductService(MyDatabaseConnection db)
 {
@@ -26,16 +28,88 @@ public class ProductService(MyDatabaseConnection db)
             .ToList();
     }
 
-    public ProductDto CreateProduct(CreateProductRequestDto productRequestDto)
+    public List<ProductDto> GetMyProducts(string sellerId)
     {
+        return db.Products
+            .Where(p => p.SellerId == sellerId)
+            .Select(p => new ProductDto(p)
+            {
+                Category = new CategoryDto(p.Category)
+            })
+            .ToList();
+    }
+
+    public ProductDto CreateProduct(
+        CreateProductRequestDto productRequestDto,
+        string sellerId)
+    {
+        if (productRequestDto.ProductPrice < 0)
+            throw new ValidationException("Price must be greater than 0");
+        
+        if (productRequestDto.Inventory < 0)
+            throw new ValidationException("Inventory must be greater than 0");
+        
+        if (!db.Categories.Any(c => c.CategoryId == productRequestDto.CategoryId)) 
+            throw new ValidationException("Category does not exists");
+        
         var p = new Product()
         {
-            ProductName = productRequestDto.ProductName,
             ProductId = Guid.NewGuid().ToString(),
+            ProductName = productRequestDto.ProductName,
             ProductPrice = productRequestDto.ProductPrice,
-            CategoryId = productRequestDto.CategoryId
+            Inventory = productRequestDto.Inventory,
+            CategoryId = productRequestDto.CategoryId,
+            SellerId = sellerId
         };
         db.Insert(p);
         return new ProductDto(p);
+    }
+    
+    public ProductDto UpdateProduct(
+        string productId,
+        UpdateProductRequestDto dto,
+        string sellerId)
+    {
+        var product = db.Products
+            .FirstOrDefault(p => p.ProductId == productId);
+        
+        if (product is null)
+            throw new ValidationException("Product not found");
+        
+        if (product.SellerId != sellerId)
+            throw new ValidationException("You do not own this product");
+
+        if (dto.ProductPrice < 0)
+            throw new ValidationException("Price must be greater than 0");
+        
+        if (dto.Inventory < 0)
+            throw new ValidationException("Inventory must be greater than 0");
+        
+        if (!db.Categories.Any(c => c.CategoryId == dto.CategoryId)) 
+            throw new ValidationException("Category does not exists");
+
+        product.ProductName = dto.ProductName;
+        product.ProductPrice = dto.ProductPrice;
+        product.Inventory = dto.Inventory;
+        product.CategoryId = dto.CategoryId;
+        
+        db.Update(product);
+        return new ProductDto(product);
+    }
+
+    public void DeleteProduct(
+        string productId,
+        string sellerId)
+    {
+        var product = db.Products
+            .FirstOrDefault(p => p.ProductId == productId);
+        
+        if (product is null)
+            throw new ValidationException("Product not found");
+        
+        if (product.SellerId != sellerId)
+            throw new ValidationException("You do not own this product");
+        
+        db.Delete(product);
     }
 }

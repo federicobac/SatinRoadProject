@@ -1,4 +1,4 @@
-﻿namespace Service;
+﻿namespace Service.RequestDtos;
 
 public class LoginRequestDto
 {

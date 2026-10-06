@@ -1,6 +1,7 @@
+using Infra.Entities;
 using LinqToDB.Mapping;
 
-namespace Infra;
+namespace Infra.Entities;
 
 public class Category
 {

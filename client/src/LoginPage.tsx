@@ -23,7 +23,7 @@ export function LoginPage() {
 
         try {
             const response = await api.api.userLogin({
-                username: username,
+                username: username.trim(),
                 password
             });
 
