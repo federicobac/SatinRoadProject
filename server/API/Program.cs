@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using System.Text;
+using API.Utils;
 using Infra;
 using LinqToDB;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

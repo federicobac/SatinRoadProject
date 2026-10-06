@@ -3,6 +3,8 @@ using Infra.Entities;
 using LinqToDB;
 using Service.Security;
 
+namespace API.Utils;
+
 public class Seeder(
     MyDatabaseConnection db,
     IPasswordHasher passwordHasher,
@@ -59,13 +61,15 @@ public class Seeder(
         //seed product
         if (db.Products.Count() == 0)
         {
-            var seller = db.Users.First(u => u.Username == "seller");
+            var seller = db.Users.
+                First(u => u.Username == "user");
             
             db.Insert(new Product()
             {
                 ProductId = "1",
                 ProductName = "product 1",
                 Inventory = 100,
+                ProductPrice = 100,
                 CategoryId = "1",
                 SellerId = seller.UserId
             });
