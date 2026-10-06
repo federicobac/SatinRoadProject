@@ -401,14 +401,12 @@ export class Api<
      * @tags User
      * @name UserCreateUser
      * @request POST:/api/User
-     * @secure
      */
     userCreateUser: (data: CreateUserRequestDto, params: RequestParams = {}) =>
       this.request<UserDto, any>({
         path: `/api/User`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -420,14 +418,12 @@ export class Api<
      * @tags User
      * @name UserLogin
      * @request POST:/api/User/login
-     * @secure
      */
     userLogin: (data: LoginRequestDto, params: RequestParams = {}) =>
       this.request<LoginResponseDto, any>({
         path: `/api/User/login`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
