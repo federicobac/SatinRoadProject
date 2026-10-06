@@ -38,6 +38,7 @@ export function ProductPage() {
                         <p>
                             Category: {product.category?.categoryName}
                         </p>
+                        
                     </div>
                 ))
             }

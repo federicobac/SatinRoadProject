@@ -37,4 +37,30 @@ public class ProductController(ProductService service) : ControllerBase
         return service.CreateProduct(dto, sellerId);
     }
     
+    [HttpPut("{id}")]
+    public ActionResult<ProductDto> UpdateProduct(
+        string id, 
+        UpdateProductRequestDto dto)
+    {
+        var sellerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (sellerId is null) 
+            return Unauthorized();
+        
+        return Ok(
+            service.UpdateProduct(id, dto, sellerId));
+    }
+    
+    [HttpDelete("{id}")]
+    public IActionResult DeleteProduct(string id)
+    {
+        var sellerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (sellerId is null) 
+            return Unauthorized();
+        
+        service.DeleteProduct(id, sellerId);
+        return NoContent();
+    }
+    
 }

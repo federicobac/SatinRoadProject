@@ -41,6 +41,8 @@ export function DashboardPage() {
                         <p>
                             Category: {product.category?.categoryName}
                         </p>
+                        
+                        
                     </div>
                 ))
             }

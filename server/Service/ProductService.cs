@@ -64,4 +64,52 @@ public class ProductService(MyDatabaseConnection db)
         db.Insert(p);
         return new ProductDto(p);
     }
+    
+    public ProductDto UpdateProduct(
+        string productId,
+        UpdateProductRequestDto dto,
+        string sellerId)
+    {
+        var product = db.Products
+            .FirstOrDefault(p => p.ProductId == productId);
+        
+        if (product is null)
+            throw new ValidationException("Product not found");
+        
+        if (product.SellerId != sellerId)
+            throw new ValidationException("You do not own this product");
+
+        if (dto.ProductPrice < 0)
+            throw new ValidationException("Price must be greater than 0");
+        
+        if (dto.Inventory < 0)
+            throw new ValidationException("Inventory must be greater than 0");
+        
+        if (!db.Categories.Any(c => c.CategoryId == dto.CategoryId)) 
+            throw new ValidationException("Category does not exists");
+
+        product.ProductName = dto.ProductName;
+        product.ProductPrice = dto.ProductPrice;
+        product.Inventory = dto.Inventory;
+        product.CategoryId = dto.CategoryId;
+        
+        db.Update(product);
+        return new ProductDto(product);
+    }
+
+    public void DeleteProduct(
+        string productId,
+        string sellerId)
+    {
+        var product = db.Products
+            .FirstOrDefault(p => p.ProductId == productId);
+        
+        if (product is null)
+            throw new ValidationException("Product not found");
+        
+        if (product.SellerId != sellerId)
+            throw new ValidationException("You do not own this product");
+        
+        db.Delete(product);
+    }
 }

@@ -523,4 +523,50 @@ export class Api<
         ...params,
       }),
   };
+  id = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductUpdateProduct
+     * @request PUT:/{id}
+     * @secure
+     */
+    productUpdateProduct: (
+      id: string,
+      query?: {
+        ProductName?: string;
+        /** @format decimal */
+        ProductPrice?: number;
+        /** @format int32 */
+        Inventory?: number;
+        CategoryId?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ProductDto, any>({
+        path: `/${id}`,
+        method: "PUT",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductDeleteProduct
+     * @request DELETE:/{id}
+     * @secure
+     */
+    productDeleteProduct: (id: string, params: RequestParams = {}) =>
+      this.request<Blob, any>({
+        path: `/${id}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+  };
 }
