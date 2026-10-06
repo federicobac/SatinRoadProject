@@ -8,44 +8,45 @@ import {api} from "@/apiClient.ts";
 
 export function ProductPage() {
     const [products, setProducts] = useState<ProductDto[]>([]);
-    const [newProductName, setNewProductName] = useState("")
 
     useEffect(() => {
-        api.getProducts.productGetProducts({page: 1, resultsPerPage: 1})
-            .then(r => {
-                const data = r.data;
-                setProducts(data);
-                const p = data[0]!;
+        api.getProducts.productGetProducts({
+            page: 1, 
+            resultsPerPage: 20
+        })
+            .then(response => {
+                setProducts(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+                toast.error("Could not load products");
             })
     }, []);
 
-    function createProduct() {
-        api.createProduct.productCreateProduct({
-            ProductName: newProductName,
-            CategoryId: "1",
-            ProductPrice: 100
-        }).then(r => {
-            const duplicate = [...products, r.data];
-            setProducts(duplicate);
-        }).catch(e => {
-            toast(e.error.title);
-        })
-    }
-
+    
     return (
         <div className="app">
-            {
-                products.map(p => {
-                    return <div key={p.productId}>{p.productName}</div>
-                })
-            }
+            <h1>Products</h1>
 
-            <input value={newProductName} onChange={e => setNewProductName(e.target.value)} />
-            <button onClick={createProduct}>Create product</button>
+            {
+                products.map(product => (
+                    <div key={product.productId}>
+                        <h2>{product.productName}</h2>
+
+                        <p>Price: {product.productPrice}</p>
+                        <p>Inventory: {product.inventory}</p>
+                        <p>Seller: {product.sellerId}</p>
+                        <p>
+                            Category: {product.category?.categoryName}
+                        </p>
+                    </div>
+                ))
+            }
 
             <LogoutButton />
         </div>
     );
+
 }
 
 export default ProductPage;
