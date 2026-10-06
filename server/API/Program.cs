@@ -69,16 +69,16 @@ builder.Services.AddControllers();
 //Adding Bearer authorization schema to Swagger
 builder.Services.AddOpenApiDocument(document =>
 {
-    document.AddSecurity(
-        "Bearer",
-        new List<string>(),
-        new NSwag.OpenApiSecurityScheme
-        {
-            Type = NSwag.OpenApiSecuritySchemeType.Http,
-            Scheme = "bearer",
-            BearerFormat = "JWT",
-            Description = "Enter your JWT bearer token"
-        });
+    document.DocumentProcessors.Add(
+        new NSwag.Generation.Processors.Security.SecurityDefinitionAppender(
+            "Bearer",
+            new NSwag.OpenApiSecurityScheme
+            {
+                Type = NSwag.OpenApiSecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Description = "Enter your JWT bearer token"
+            }));
     
     document.OperationProcessors.Add(
         new NSwag.Generation.Processors.Security

@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import { clearAuthToken } from "@/apiClient.ts";
+import {useAuth} from "@/AuthContext.tsx";
 
 export function LogoutButton() {
+    const { logout } = useAuth();
     const navigate = useNavigate();
 
-    function logout() {
-        clearAuthToken();
+    function handleLogout() {
+        logout();
 
         toast.success("Logged out.");
 
@@ -14,7 +15,7 @@ export function LogoutButton() {
     }
 
     return (
-        <button onClick={logout}>
+        <button onClick={handleLogout}>
             Log out
         </button>
     );

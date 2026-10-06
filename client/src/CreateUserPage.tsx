@@ -1,9 +1,9 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import { Api } from "../Api.ts";
+import {api} from "@/apiClient.ts";
 
-const api = new Api();
+
 
 export function CreateUserPage() {
     const [username, setUsername] = useState("");
