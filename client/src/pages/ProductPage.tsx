@@ -1,5 +1,5 @@
-﻿import "./index.css";
-import {type ProductDto} from "../Api.ts";
+﻿import "../index.css";
+import {type ProductDto} from "../../Api.ts";
 import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import {LogoutButton} from "@/components/LogoutButton.tsx";
