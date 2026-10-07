@@ -21,6 +21,15 @@ public class OrderService(MyDatabaseConnection db)
         if (product is null)
             throw new ValidationException("Product not found");
 
+        if (dto.Quantity > product.Inventory)
+            throw new ValidationException("Not enough inventory");
+        
+        using var transaction = db.BeginTransaction();
+        
+        product.Inventory -= dto.Quantity;
+
+        db.Update(product);
+
         var order = new Order
         {
             OrderId = Guid.NewGuid().ToString(),
@@ -33,6 +42,9 @@ public class OrderService(MyDatabaseConnection db)
         };
         
         db.Insert(order);
+        
+        transaction.Commit();
+        
         return order;
     }
 }
