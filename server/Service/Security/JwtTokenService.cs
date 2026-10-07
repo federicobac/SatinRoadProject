@@ -1,7 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Infra;
 using Infra.Entities;
 using Microsoft.IdentityModel.Tokens;
 

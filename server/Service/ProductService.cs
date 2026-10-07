@@ -19,11 +19,13 @@ public class ProductService(MyDatabaseConnection db)
         return db.Products
             .LoadWith(p => p.Category)
             .ThenLoad(c => c.ProductsByCategory)
+            .LoadWith(p => p.Seller)
             .Take(resultsPerPage)
             .Skip((page - 1) * resultsPerPage)
             .Select(p => new ProductDto(p)
             {
                 Category = new CategoryDto(p.Category),
+                SellerUsername = p.Seller.Username
             })
             .ToList();
     }
@@ -32,9 +34,11 @@ public class ProductService(MyDatabaseConnection db)
     {
         return db.Products
             .Where(p => p.SellerId == sellerId)
+            .LoadWith(p => p.Seller)
             .Select(p => new ProductDto(p)
             {
-                Category = new CategoryDto(p.Category)
+                Category = new CategoryDto(p.Category),
+                SellerUsername = p.Seller.Username
             })
             .ToList();
     }

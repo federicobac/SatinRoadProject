@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { api } from "@/apiClient.ts";
-import type {CategoryDto} from "../Api.ts";
+import type {CategoryDto} from "../../Api.ts";
 
 export function CreateListingPage() {
     const [productName, setProductName] = useState("");

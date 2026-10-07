@@ -1,4 +1,3 @@
-using Infra.Entities;
 using LinqToDB.Mapping;
 
 namespace Infra.Entities;

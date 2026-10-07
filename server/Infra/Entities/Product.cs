@@ -10,6 +10,14 @@ public class Product
     public int Inventory { get; set; }
     public string CategoryId { get; set; }
     public string SellerId { get; set; }
-    [Association(ThisKey = nameof(CategoryId), OtherKey = nameof(Category.CategoryId))]
+    
+    [Association(
+        ThisKey = nameof(CategoryId), 
+        OtherKey = nameof(Category.CategoryId))]
     public Category Category { get; set; }
+    
+    [Association(
+        ThisKey = nameof(SellerId),
+        OtherKey = nameof(User.UserId))]
+    public User Seller { get; set; }
 }

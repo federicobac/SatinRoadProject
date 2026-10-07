@@ -1,13 +1,14 @@
 import {createBrowserRouter, type RouteObject, RouterProvider} from "react-router";
 import App from "@/App.tsx";
-import LoginPage from "@/LoginPage.tsx";
-import CreateUserPage from "@/CreateUserPage.tsx";
-import ProductPage from "@/ProductPage.tsx";
-import CategoryPage from "@/CategoryPage.tsx";
-import {ProtectedRoute} from "@/ProtectedRoute.tsx";
-import {AdminRoute} from "@/AdminRoute.tsx";
-import DashboardPage from "@/DashboardPage.tsx";
-import CreateListingPage from "@/CreateListingPage.tsx";
+import LoginPage from "@/pages/LoginPage.tsx";
+import CreateUserPage from "@/pages/CreateUserPage.tsx";
+import ProductPage from "@/pages/ProductPage.tsx";
+import CategoryPage from "@/pages/CategoryPage.tsx";
+import {ProtectedRoute} from "@/routing/ProtectedRoute.tsx";
+import {AdminRoute} from "@/routing/AdminRoute.tsx";
+import DashboardPage from "@/pages/DashboardPage.tsx";
+import CreateListingPage from "@/pages/CreateListingPage.tsx";
+import EditListingPage from "@/pages/EditListingPage.tsx";
 
 const routes: RouteObject[] = [
     {
@@ -51,6 +52,14 @@ const routes: RouteObject[] = [
         element: (
             <ProtectedRoute>
                 <CreateListingPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/edit-listing/:id",
+        element: (
+            <ProtectedRoute>
+                <EditListingPage />
             </ProtectedRoute>
         )
     }

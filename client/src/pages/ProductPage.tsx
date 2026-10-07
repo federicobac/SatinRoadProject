@@ -1,5 +1,5 @@
-﻿import "./index.css";
-import {type ProductDto} from "../Api.ts";
+﻿import "../index.css";
+import {type ProductDto} from "../../Api.ts";
 import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import {LogoutButton} from "@/components/LogoutButton.tsx";
@@ -33,6 +33,7 @@ export function ProductPage() {
                     <div key={product.productId}>
                         <h2>{product.productName}</h2>
 
+                        <p>Seller: {product.sellerUsername}</p>
                         <p>Price: {product.productPrice}</p>
                         <p>Inventory: {product.inventory}</p>
                         <p>
