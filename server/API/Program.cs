@@ -53,6 +53,8 @@ builder.Services.AddScoped<Seeder>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<OrderService>();
+
 builder.Services.AddScoped<IPasswordHasher, Argon2PasswordHasher>();
 
 //Dependency-Injection phase
