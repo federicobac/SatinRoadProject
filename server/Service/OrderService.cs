@@ -21,6 +21,9 @@ public class OrderService(MyDatabaseConnection db)
         if (product is null)
             throw new ValidationException("Product not found");
 
+        if (product.SellerId == buyerId)
+            throw new ValidationException("You cannot buy your own product");
+
         if (dto.Quantity > product.Inventory)
             throw new ValidationException("Not enough inventory");
         
