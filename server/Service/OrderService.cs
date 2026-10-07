@@ -21,6 +21,9 @@ public class OrderService(MyDatabaseConnection db)
         if (product is null)
             throw new ValidationException("Product not found");
 
+        if (product.SellerId == buyerId)
+            throw new ValidationException("You cannot buy your own product");
+
         if (dto.Quantity > product.Inventory)
             throw new ValidationException("Not enough inventory");
         
@@ -46,5 +49,20 @@ public class OrderService(MyDatabaseConnection db)
         transaction.Commit();
         
         return order;
+    }
+
+    public List<OrderDto> GetMyOrders(string buyerId)
+    {
+        return db.Orders
+            .Where(o => o.BuyerId == buyerId)
+            .LoadWith(o => o.Product)
+            .LoadWith(o => o.Seller)
+            .OrderByDescending(o => o.OrderDate)
+            .Select(o => new OrderDto(o)
+            {
+                ProductName = o.Product.ProductName,
+                SellerUsername = o.Seller.Username
+            })
+            .ToList();
     }
 }

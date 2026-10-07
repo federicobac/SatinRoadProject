@@ -1,5 +1,5 @@
 ﻿import { useEffect, useState } from "react";
-import type { ProductDto } from "../../Api.ts";
+import type { ProductDto, OrderDto } from "../../Api.ts";
 import { api } from "@/apiClient.ts";
 import toast from "react-hot-toast";
 import { LogoutButton } from "@/components/LogoutButton.tsx";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 
 export function DashboardPage() {
     const [products, setProducts] = useState<ProductDto[]>([]);
+    const [orders, setOrders] = useState<OrderDto[]>([]);
     const navigate = useNavigate();
 
     function loadProducts() {
@@ -20,8 +21,20 @@ export function DashboardPage() {
             });
     }
 
+    function loadOrders() {
+        api.api.orderGetMyOrders()
+            .then(response => {
+                setOrders(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+                toast.error("Could not load your orders");
+            });
+    }
+
     useEffect(() => {
         loadProducts();
+        loadOrders();
     }, []);
 
     async function handleDelete(productId: string) {
@@ -59,8 +72,6 @@ export function DashboardPage() {
 
                     <p>Price: {product.productPrice}</p>
 
-                    <p>Seller: {product.sellerUsername}</p>
-
                     <p>Inventory: {product.inventory}</p>
 
                     <p>
@@ -84,6 +95,44 @@ export function DashboardPage() {
                     </button>
                 </div>
             ))}
+
+            <h1>My Orders</h1>
+
+            {orders.length === 0 ? (
+                <p>You haven't placed any orders yet.</p>
+            ) : (
+                orders.map(order => (
+                    <div
+                        key={
+                            order.orderId ??
+                            `${order.productId}-${order.orderDate}`
+                        }
+                    >
+                        <h2>{order.productName}</h2>
+
+                        <p>
+                            Seller: {order.sellerUsername}
+                        </p>
+
+                        <p>
+                            Quantity: {order.quantity}
+                        </p>
+
+                        <p>
+                            Price per item: {order.productPrice}
+                        </p>
+
+                        <p>
+                            Date:{" "}
+                            {order.orderDate
+                                ? new Date(
+                                    order.orderDate
+                                ).toLocaleString()
+                                : "Unknown"}
+                        </p>
+                    </div>
+                ))
+            )}
 
             <LogoutButton />
         </div>

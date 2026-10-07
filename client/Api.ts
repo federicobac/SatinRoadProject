@@ -92,6 +92,21 @@ export interface CreateOrderRequestDto {
   quantity?: number;
 }
 
+export interface OrderDto {
+  productName?: string;
+  sellerUsername?: string;
+  orderId?: string;
+  buyerId?: string;
+  sellerId?: string;
+  /** @format int32 */
+  quantity?: number;
+  /** @format decimal */
+  productPrice?: number;
+  /** @format date-time */
+  orderDate?: string;
+  product?: Product;
+}
+
 export interface ProductDto {
   category?: CategoryDto;
   sellerUsername?: string;
@@ -517,6 +532,23 @@ export class Api<
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name OrderGetMyOrders
+     * @request GET:/api/Order/GetMyOrders
+     * @secure
+     */
+    orderGetMyOrders: (params: RequestParams = {}) =>
+      this.request<OrderDto[], any>({
+        path: `/api/Order/GetMyOrders`,
+        method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),

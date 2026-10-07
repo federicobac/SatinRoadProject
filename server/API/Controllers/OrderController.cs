@@ -24,4 +24,16 @@ public class OrderController(OrderService service) : ControllerBase
         
         return Ok(order);
     }
+
+    [HttpGet(nameof(GetMyOrders))]
+    public ActionResult<List<OrderDto>> GetMyOrders()
+    {
+        var buyerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (buyerId is null)
+            return Unauthorized();
+        
+        var orders = service.GetMyOrders(buyerId);
+        return Ok(orders);
+    }
 }
