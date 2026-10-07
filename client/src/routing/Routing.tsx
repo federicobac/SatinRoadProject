@@ -8,6 +8,7 @@ import {ProtectedRoute} from "@/routing/ProtectedRoute.tsx";
 import {AdminRoute} from "@/routing/AdminRoute.tsx";
 import DashboardPage from "@/pages/DashboardPage.tsx";
 import CreateListingPage from "@/pages/CreateListingPage.tsx";
+import EditListingPage from "@/pages/EditListingPage.tsx";
 
 const routes: RouteObject[] = [
     {
@@ -51,6 +52,14 @@ const routes: RouteObject[] = [
         element: (
             <ProtectedRoute>
                 <CreateListingPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/edit-listing/:id",
+        element: (
+            <ProtectedRoute>
+                <EditListingPage />
             </ProtectedRoute>
         )
     }
