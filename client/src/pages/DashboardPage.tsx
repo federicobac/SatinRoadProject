@@ -59,6 +59,8 @@ export function DashboardPage() {
 
                     <p>Price: {product.productPrice}</p>
 
+                    <p>Seller: {product.sellerUsername}</p>
+
                     <p>Inventory: {product.inventory}</p>
 
                     <p>

@@ -33,6 +33,7 @@ export function ProductPage() {
                     <div key={product.productId}>
                         <h2>{product.productName}</h2>
 
+                        <p>Seller: {product.sellerUsername}</p>
                         <p>Price: {product.productPrice}</p>
                         <p>Inventory: {product.inventory}</p>
                         <p>
