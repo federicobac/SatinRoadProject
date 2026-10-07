@@ -44,6 +44,54 @@ export interface LoginRequestDto {
   password?: string;
 }
 
+export interface Order {
+  orderId?: string;
+  buyerId?: string;
+  productId?: string;
+  sellerId?: string;
+  /** @format int32 */
+  quantity?: number;
+  /** @format decimal */
+  productPrice?: number;
+  /** @format date-time */
+  orderDate?: string;
+  buyer?: User;
+  product?: Product;
+  seller?: User;
+}
+
+export interface User {
+  userId?: string;
+  username?: string;
+  passwordHash?: string;
+  role?: string;
+}
+
+export interface Product {
+  productId?: string;
+  productName?: string;
+  /** @format decimal */
+  productPrice?: number;
+  /** @format int32 */
+  inventory?: number;
+  categoryId?: string;
+  sellerId?: string;
+  category?: Category;
+  seller?: User;
+}
+
+export interface Category {
+  categoryId?: string;
+  categoryName?: string;
+  productsByCategory?: Product[];
+}
+
+export interface CreateOrderRequestDto {
+  productId?: string;
+  /** @format int32 */
+  quantity?: number;
+}
+
 export interface ProductDto {
   category?: CategoryDto;
   sellerUsername?: string;
@@ -56,13 +104,6 @@ export interface ProductDto {
   categoryId?: string;
   sellerId?: string;
   seller?: User;
-}
-
-export interface User {
-  userId?: string;
-  username?: string;
-  passwordHash?: string;
-  role?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -454,6 +495,28 @@ export class Api<
         path: `/api/User/me`,
         method: "GET",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name OrderCreateOrder
+     * @request POST:/api/Order/CreateOrder
+     * @secure
+     */
+    orderCreateOrder: (
+      data: CreateOrderRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<Order, any>({
+        path: `/api/Order/CreateOrder`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
