@@ -47,4 +47,19 @@ public class OrderService(MyDatabaseConnection db)
         
         return order;
     }
+
+    public List<OrderDto> GetMyOrders(string buyerId)
+    {
+        return db.Orders
+            .Where(o => o.BuyerId == buyerId)
+            .LoadWith(o => o.Product)
+            .LoadWith(o => o.Seller)
+            .OrderByDescending(o => o.OrderDate)
+            .Select(o => new OrderDto(o)
+            {
+                ProductName = o.Product.ProductName,
+                SellerUsername = o.Seller.Username
+            })
+            .ToList();
+    }
 }
