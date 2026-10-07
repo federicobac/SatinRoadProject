@@ -8,10 +8,11 @@ import {api} from "@/apiClient.ts";
 
 export function ProductPage() {
     const [products, setProducts] = useState<ProductDto[]>([]);
+    const [quantities, setQuantities] = useState<Record<string, number>>({})
 
-    useEffect(() => {
+    function loadProducts() {
         api.getProducts.productGetProducts({
-            page: 1, 
+            page: 1,
             resultsPerPage: 20
         })
             .then(response => {
@@ -21,9 +22,49 @@ export function ProductPage() {
                 console.error(error);
                 toast.error("Could not load products");
             })
+    }
+
+    useEffect(() => {
+        loadProducts();
     }, []);
 
-    
+    async function handleBuy(product: ProductDto) {
+        if (!product.productId) {
+            toast.error("Product not found!");
+            return;
+        }
+
+        const quantity = quantities[product.productId] ?? 1;
+
+        try {
+            await api.api.orderCreateOrder({
+                productId: product.productId,
+                quantity: quantity
+            })
+
+            toast.success("Purchase successful!");
+            loadProducts();
+
+        } catch (error: any) {
+
+            console.error(error);
+            toast.error(
+                error?.error?.title ?? "Could not complete purchase",
+            );
+        }
+    }
+
+    function handleQuantityChange(
+        productId: string,
+        quantity: number,
+    ) {
+        setQuantities(previous => ({
+            ...previous,
+            [productId]: quantity
+        }));
+    }
+
+
     return (
         <div className="app">
             <h1>Products</h1>
@@ -33,13 +74,39 @@ export function ProductPage() {
                     <div key={product.productId}>
                         <h2>{product.productName}</h2>
 
-                        <p>Seller: {product.sellerUsername}</p>
                         <p>Price: {product.productPrice}</p>
                         <p>Inventory: {product.inventory}</p>
+
                         <p>
                             Category: {product.category?.categoryName}
                         </p>
-                        
+
+                        <p>
+                            Seller: {product.sellerUsername}
+                        </p>
+
+                        <input
+                            type="number"
+                            min="1"
+                            max={product.inventory}
+                            value={
+                                quantities[product.productId ?? ""] ?? 1
+                            }
+                            disabled={!product.inventory}
+                            onChange={event =>
+                                handleQuantityChange(
+                                    product.productId ?? "",
+                                    Number(event.target.value)
+                                )
+                            }
+                        />
+
+                        <button
+                            disabled={!product.inventory}
+                            onClick={() => handleBuy(product)}
+                        >
+                            Buy
+                        </button>
                     </div>
                 ))
             }
