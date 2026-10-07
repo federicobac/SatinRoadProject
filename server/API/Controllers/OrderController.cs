@@ -31,7 +31,7 @@ public class OrderController(OrderService service) : ControllerBase
         var buyerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (buyerId is null)
-            throw Unauthorized();
+            return Unauthorized();
         
         var orders = service.GetMyOrders(buyerId);
         return Ok(orders);
