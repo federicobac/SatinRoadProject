@@ -11,7 +11,7 @@ export function LogoutButton() {
 
         toast.success("Logged out.");
 
-        navigate("/login");
+        navigate("/");
     }
 
     return (

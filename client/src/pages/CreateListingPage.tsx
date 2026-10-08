@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { api } from "@/apiClient.ts";
 import type {CategoryDto} from "../../Api.ts";
+import {NavigationButtons} from "@/components/NavigationButtons.tsx";
 
 export function CreateListingPage() {
     const [productName, setProductName] = useState("");
@@ -57,6 +58,9 @@ export function CreateListingPage() {
 
     return (
         <div>
+
+            <NavigationButtons />
+
             <h1>Create Listing</h1>
 
             <form onSubmit={handleSubmit}>
@@ -137,6 +141,7 @@ export function CreateListingPage() {
                 >
                     Cancel
                 </button>
+
             </form>
         </div>
     );

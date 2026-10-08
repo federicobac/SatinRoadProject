@@ -33,6 +33,19 @@ body::before {
     background-position: 256px 224px;
   }
 }
+.navigation-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 1rem 1.5rem;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+.navigation-buttons button {
+  margin: 0;
+}
 .app {
   max-width: 1280px;
   margin: 0 auto;

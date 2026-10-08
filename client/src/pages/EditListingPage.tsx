@@ -3,6 +3,7 @@ import { type FormEvent, useEffect, useState } from "react";
 import type { CategoryDto, ProductDto } from "../../Api.ts";
 import toast from "react-hot-toast";
 import { api } from "@/apiClient.ts";
+import {NavigationButtons} from "@/components/NavigationButtons.tsx";
 
 export function EditListingPage() {
     const { id } = useParams();
@@ -89,6 +90,9 @@ export function EditListingPage() {
 
     return (
         <div>
+
+            <NavigationButtons />
+
             <h1>Edit Listing</h1>
 
             <form onSubmit={handleSubmit}>

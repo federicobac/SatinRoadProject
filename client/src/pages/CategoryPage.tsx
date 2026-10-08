@@ -3,6 +3,7 @@ import {type CategoryDto} from "../../Api.ts";
 import toast from "react-hot-toast";
 import {LogoutButton} from "@/components/LogoutButton.tsx";
 import {api} from "@/apiClient.ts";
+import {NavigationButtons} from "@/components/NavigationButtons.tsx";
 
 
 export function CategoryPage() {
@@ -99,6 +100,9 @@ export function CategoryPage() {
 
     return (
         <div>
+
+            <NavigationButtons />
+
             <h1>Categories</h1>
 
             <div>
@@ -163,7 +167,6 @@ export function CategoryPage() {
                     </div>
                 );
             })}
-            <LogoutButton />
         </div>
     );
 }

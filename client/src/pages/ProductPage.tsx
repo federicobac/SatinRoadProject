@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import {LogoutButton} from "@/components/LogoutButton.tsx";
 import {api} from "@/apiClient.ts";
+import {NavigationButtons} from "@/components/NavigationButtons.tsx";
 
 
 export function ProductPage() {
@@ -67,6 +68,9 @@ export function ProductPage() {
 
     return (
         <div className="app">
+
+            <NavigationButtons />
+
             <h1>Products</h1>
 
             {
@@ -110,8 +114,6 @@ export function ProductPage() {
                     </div>
                 ))
             }
-
-            <LogoutButton />
         </div>
     );
 

@@ -4,6 +4,7 @@ import { api } from "@/apiClient.ts";
 import toast from "react-hot-toast";
 import { LogoutButton } from "@/components/LogoutButton.tsx";
 import { useNavigate } from "react-router";
+import {NavigationButtons} from "@/components/NavigationButtons.tsx";
 
 export function DashboardPage() {
     const [products, setProducts] = useState<ProductDto[]>([]);
@@ -60,6 +61,9 @@ export function DashboardPage() {
 
     return (
         <div>
+
+            <NavigationButtons />
+
             <button onClick={() => navigate("/create-listing")}>
                 Create Listing
             </button>
@@ -133,8 +137,6 @@ export function DashboardPage() {
                     </div>
                 ))
             )}
-
-            <LogoutButton />
         </div>
     );
 }
