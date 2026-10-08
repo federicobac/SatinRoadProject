@@ -2,7 +2,6 @@
 import {type ProductDto} from "../../Api.ts";
 import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
-import {LogoutButton} from "@/components/LogoutButton.tsx";
 import {api} from "@/apiClient.ts";
 import {NavigationButtons} from "@/components/NavigationButtons.tsx";
 
@@ -67,56 +66,86 @@ export function ProductPage() {
 
 
     return (
-        <div className="app">
-
+        <div className="page-container">
             <NavigationButtons />
 
-            <h1>Products</h1>
+            <h1 className="page-title">
+                Products
+            </h1>
 
-            {
-                products.map(product => (
-                    <div key={product.productId}>
-                        <h2>{product.productName}</h2>
+            <div className="products-grid">
+                {products.map(product => (
+                    <div
+                        className="product-card"
+                        key={product.productId}
+                    >
+                        <div>
+                            <h2>
+                                {product.productName}
+                            </h2>
 
-                        <p>Price: {product.productPrice}</p>
-                        <p>Inventory: {product.inventory}</p>
+                            <p>
+                                Price:{" "}
+                                <strong>
+                                    {product.productPrice}
+                                </strong>
+                            </p>
 
-                        <p>
-                            Category: {product.category?.categoryName}
-                        </p>
+                            <p>
+                                Seller:{" "}
+                                <strong>
+                                    {product.sellerUsername}
+                                </strong>
+                            </p>
 
-                        <p>
-                            Seller: {product.sellerUsername}
-                        </p>
+                            <p>
+                                Inventory:{" "}
+                                <strong>
+                                    {product.inventory}
+                                </strong>
+                            </p>
 
-                        <input
-                            type="number"
-                            min="1"
-                            max={product.inventory}
-                            value={
-                                quantities[product.productId ?? ""] ?? 1
-                            }
-                            disabled={!product.inventory}
-                            onChange={event =>
-                                handleQuantityChange(
-                                    product.productId ?? "",
-                                    Number(event.target.value)
-                                )
-                            }
-                        />
+                            <p>
+                                Category:{" "}
+                                <strong>
+                                    {product.category?.categoryName}
+                                </strong>
+                            </p>
+                        </div>
 
-                        <button
-                            disabled={!product.inventory}
-                            onClick={() => handleBuy(product)}
-                        >
-                            Buy
-                        </button>
+                        <div className="product-purchase">
+                            <input
+                                type="number"
+                                min="1"
+                                max={product.inventory}
+                                value={
+                                    quantities[
+                                    product.productId ?? ""
+                                        ] ?? 1
+                                }
+                                disabled={!product.inventory}
+                                onChange={event =>
+                                    handleQuantityChange(
+                                        product.productId ?? "",
+                                        Number(event.target.value)
+                                    )
+                                }
+                            />
+
+                            <button
+                                disabled={!product.inventory}
+                                onClick={() =>
+                                    handleBuy(product)
+                                }
+                            >
+                                Buy
+                            </button>
+                        </div>
                     </div>
-                ))
-            }
+                ))}
+            </div>
         </div>
     );
-
 }
 
 export default ProductPage;

@@ -5,7 +5,6 @@ import {api} from "@/apiClient.ts";
 import {NavigationButtons} from "@/components/NavigationButtons.tsx";
 
 
-
 export function CreateUserPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -36,39 +35,50 @@ export function CreateUserPage() {
     }
 
     return (
-        <div>
-
+        <div className="page-container">
             <NavigationButtons />
 
-            <h1>Create User</h1>
+            <div className="form-page">
+                <h1 className="page-title">Create User</h1>
 
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>
-                        Username
-                        <input
-                            type="text"
-                            value={username}
-                            onChange={(event) => setUsername(event.target.value)}
-                        />
-                    </label>
+                <div className="form-card">
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-field">
+                            <label>
+                                Username
+                            </label>
+
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={(event) =>
+                                    setUsername(event.target.value)
+                                }
+                            />
+                        </div>
+
+                        <div className="form-field">
+                            <label>
+                                Password
+                            </label>
+
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(event) =>
+                                    setPassword(event.target.value)
+                                }
+                            />
+                        </div>
+
+                        <div className="form-actions">
+                            <button type="submit">
+                                Create user
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-                <div>
-                    <label>
-                        Password
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                        />
-                    </label>
-                </div>
-
-                <button type="submit">
-                    Create user
-                </button>
-            </form>
+            </div>
         </div>
     );
 }

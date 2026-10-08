@@ -45,39 +45,50 @@ export function LoginPage() {
     }
 
     return (
-        <div>
-
+        <div className="page-container">
             <NavigationButtons />
 
-            <h1>Login</h1>
+            <div className="form-page">
+                <h1 className="page-title">Login</h1>
 
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>
-                        Username
-                        <input
-                            type="text"
-                            value={username}
-                            onChange={(event) => setUsername(event.target.value)}
-                        />
-                    </label>
+                <div className="form-card">
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-field">
+                            <label>
+                                Username
+                            </label>
+
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={(event) =>
+                                    setUsername(event.target.value)
+                                }
+                            />
+                        </div>
+
+                        <div className="form-field">
+                            <label>
+                                Password
+                            </label>
+
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(event) =>
+                                    setPassword(event.target.value)
+                                }
+                            />
+                        </div>
+
+                        <div className="form-actions">
+                            <button type="submit">
+                                Log in
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-                <div>
-                    <label>
-                        Password
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                        />
-                    </label>
-                </div>
-
-                <button type="submit">
-                    Log in
-                </button>
-            </form>
+            </div>
         </div>
     );
 }
