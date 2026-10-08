@@ -1,8 +1,8 @@
 ﻿import {useEffect, useState} from "react";
 import {type CategoryDto} from "../../Api.ts";
 import toast from "react-hot-toast";
-import {LogoutButton} from "@/components/LogoutButton.tsx";
 import {api} from "@/apiClient.ts";
+import {NavigationButtons} from "@/components/NavigationButtons.tsx";
 
 
 export function CategoryPage() {
@@ -98,72 +98,102 @@ export function CategoryPage() {
     }
 
     return (
-        <div>
-            <h1>Categories</h1>
+        <div className="page-container">
+            <NavigationButtons />
 
-            <div>
-                <input
-                    type="text"
-                    placeholder="Category name"
-                    value={categoryName}
-                    onChange={(event) =>
-                        setCategoryName(event.target.value)}
-                />
+            <h1 className="page-title">
+                Categories
+            </h1>
 
-                <button onClick={handleCreate}>
-                    Create category
-                </button>
+            <div className="category-content">
+                <div className="category-create">
+                    <input
+                        type="text"
+                        placeholder="Category name"
+                        value={categoryName}
+                        onChange={(event) =>
+                            setCategoryName(event.target.value)
+                        }
+                    />
+
+                    <button onClick={handleCreate}>
+                        Create category
+                    </button>
+                </div>
+
+                <div className="category-list">
+                    {categories.map((category) => {
+                        if (!category.categoryId) {
+                            return null;
+                        }
+
+                        const isEditing =
+                            editingId === category.categoryId;
+
+                        return (
+                            <div
+                                className="category-item"
+                                key={category.categoryId}
+                            >
+                                {isEditing ? (
+                                    <>
+                                        <input
+                                            type="text"
+                                            value={editingName}
+                                            onChange={(event) =>
+                                                setEditingName(
+                                                    event.target.value
+                                                )
+                                            }
+                                        />
+
+                                        <div className="category-actions">
+                                            <button onClick={handleUpdate}>
+                                                Save
+                                            </button>
+
+                                            <button
+                                                onClick={cancelEditing}
+                                            >
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                    <span>
+                                        {category.categoryName}
+                                    </span>
+
+                                        <div className="category-actions">
+                                            <button
+                                                onClick={() =>
+                                                    startEditing(
+                                                        category.categoryId!,
+                                                        category.categoryName ?? ""
+                                                    )
+                                                }
+                                            >
+                                                Edit
+                                            </button>
+
+                                            <button
+                                                onClick={() =>
+                                                    handleDelete(
+                                                        category.categoryId!
+                                                    )
+                                                }
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
-
-            <hr />
-
-            {categories.map((category) => {
-                if (!category.categoryId) {
-                    return null;
-                }
-
-                const isEditing = editingId === category.categoryId;
-
-                return (
-                    <div key={category.categoryId}>
-                        {isEditing ? (
-                            <>
-                                <input
-                                    type="text"
-                                    value={editingName}
-                                    onChange={(event) =>
-                                        setEditingName(event.target.value)}
-                                />
-
-                                <button onClick={handleUpdate}>
-                                    Save
-                                </button>
-
-                                <button onClick={cancelEditing}>
-                                    Cancel
-                                </button>
-                            </>
-                        ) : (
-                            <>
-                                <span>
-                                    {category.categoryName}
-                                </span>
-
-                                <button onClick={() => startEditing(
-                                        category.categoryId!,
-                                        category.categoryName ?? "")}>
-                                    Edit
-                                </button>
-
-                                <button onClick={() => handleDelete(category.categoryId!)}>
-                                    Delete
-                                </button>
-                            </>
-                        )}
-                    </div>
-                );
-            })}
-            <LogoutButton />
         </div>
     );
 }

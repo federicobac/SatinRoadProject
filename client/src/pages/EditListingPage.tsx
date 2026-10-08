@@ -3,6 +3,8 @@ import { type FormEvent, useEffect, useState } from "react";
 import type { CategoryDto, ProductDto } from "../../Api.ts";
 import toast from "react-hot-toast";
 import { api } from "@/apiClient.ts";
+import {NavigationButtons} from "@/components/NavigationButtons.tsx";
+
 
 export function EditListingPage() {
     const { id } = useParams();
@@ -88,88 +90,100 @@ export function EditListingPage() {
     }
 
     return (
-        <div>
-            <h1>Edit Listing</h1>
+        <div className="page-container">
+            <NavigationButtons />
 
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>
-                        Product name
-                        <input
-                            type="text"
-                            value={productName}
-                            onChange={event =>
-                                setProductName(event.target.value)
-                            }
-                        />
-                    </label>
-                </div>
+            <div className="form-page">
+                <h1 className="page-title">Edit Listing</h1>
 
-                <div>
-                    <label>
-                        Price
-                        <input
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            value={productPrice}
-                            onChange={event =>
-                                setProductPrice(event.target.value)
-                            }
-                        />
-                    </label>
-                </div>
+                <div className="form-card">
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-field">
+                            <label>
+                                Product name
+                            </label>
 
-                <div>
-                    <label>
-                        Category
-                        <select
-                            value={categoryId}
-                            onChange={event =>
-                                setCategoryId(event.target.value)
-                            }
-                        >
-                            <option value="">
-                                Select category
-                            </option>
+                            <input
+                                type="text"
+                                value={productName}
+                                onChange={event =>
+                                    setProductName(event.target.value)
+                                }
+                            />
+                        </div>
 
-                            {categories.map(category => (
-                                <option
-                                    key={category.categoryId}
-                                    value={category.categoryId}
-                                >
-                                    {category.categoryName}
+                        <div className="form-field">
+                            <label>
+                                Price
+                            </label>
+
+                            <input
+                                type="number"
+                                min="0"
+                                step="0.01"
+                                value={productPrice}
+                                onChange={event =>
+                                    setProductPrice(event.target.value)
+                                }
+                            />
+                        </div>
+
+                        <div className="form-field">
+                            <label>
+                                Category
+                            </label>
+
+                            <select
+                                value={categoryId}
+                                onChange={event =>
+                                    setCategoryId(event.target.value)
+                                }
+                            >
+                                <option value="">
+                                    Select category
                                 </option>
-                            ))}
-                        </select>
-                    </label>
+
+                                {categories.map(category => (
+                                    <option
+                                        key={category.categoryId}
+                                        value={category.categoryId}
+                                    >
+                                        {category.categoryName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="form-field">
+                            <label>
+                                Inventory
+                            </label>
+
+                            <input
+                                type="number"
+                                min="0"
+                                value={inventory}
+                                onChange={event =>
+                                    setInventory(event.target.value)
+                                }
+                            />
+                        </div>
+
+                        <div className="form-actions">
+                            <button type="submit">
+                                Save Changes
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => navigate("/dashboard")}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-                <div>
-                    <label>
-                        Inventory
-                        <input
-                            type="number"
-                            min="0"
-                            value={inventory}
-                            onChange={event =>
-                                setInventory(event.target.value)
-                            }
-                        />
-                    </label>
-                </div>
-
-                <button type="submit">
-                    Save Changes
-                </button>
-
-                <button
-                    type="button"
-                    onClick={() => navigate("/dashboard")}
-                >
-                    Cancel
-                </button>
-            </form>
+            </div>
         </div>
     );
 }
